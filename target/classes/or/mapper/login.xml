@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="login">
+	<select id="userChk" parameterType="parentvo" resultType="int">
+		select count(*) cnt from parent where p_id=#{p_id} and p_pw=#{p_pw}
+	</select>
+	<select id="adminChk" parameterType="adminvo" resultType="int">
+		select count(*) cnt from admin where a_id=#{a_id} and a_pwd=#{a_pwd}
+	</select>
+	<select id="adminNick" parameterType="String" resultType="String">
+		select a_nickname from admin where a_id=#{a_id}
+	</select>
+	<select id="userNick" parameterType="String" resultType="String">
+		select p_nickname from parent where p_id=#{p_id}
+	</select>
+</mapper>

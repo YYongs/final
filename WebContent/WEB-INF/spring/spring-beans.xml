@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+	<context:component-scan base-package="or.clearn" />
+	<mvc:annotation-driven />
+	<mvc:resources location="/resources/" mapping="/resources/**" />
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="mysocketHandler" class="or.clearn.handler.MySocketHandler" />
+
+	<websocket:handlers>
+		<websocket:mapping handler="mysocketHandler" path="/websocket/echo" />
+	</websocket:handlers>
+
+	<bean id="factoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:or/config/config.xml" />
+		<property name="mapperLocations" value="classpath*:or/mapper/*.xml" />
+	</bean>
+	<bean id="ss" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="factoryBean" />
+	</bean>
+</beans>
